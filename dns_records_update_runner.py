@@ -7,7 +7,7 @@ from api.dns_record_add import DnsRecordAdd
 from api.dns_records_get import DnsRecordsGet
 from api.dns_zones_get import DnsZonesGet
 
-class DNSRecordsUpdateTask():
+class DnsRecordsUpdateRunner():
 
     def __init__(self):
         self._config = self.read_config()
@@ -22,7 +22,7 @@ class DNSRecordsUpdateTask():
 
         zone_id = self.get_dns_zone_id()
         dns_records = self.get_outdated_dns_records(zone_id, ip)
-        self.remove_outdated_dns_records(dns_records)
+        self.remove_outdated_dns_records(zone_id, dns_records)
         self.push_new_dns_records(zone_id, ip, dns_records)
 
     def get_dns_zone_id(self) -> string:
@@ -51,9 +51,9 @@ class DNSRecordsUpdateTask():
 
         return outdated_records
 
-    def remove_outdated_dns_records(self, zone_id: string, ids: []):
-        for id in ids:
-            req = DnsRecordsDelete(zone_id, id)
+    def remove_outdated_dns_records(self, zone_id: string, dns_records: []):
+        for dns_record in dns_records:
+            req = DnsRecordsDelete(zone_id, dns_record['id'])
             self._client.send_request(req)
 
     def push_new_dns_records(self, zone_id: string, value: string, records: []):
