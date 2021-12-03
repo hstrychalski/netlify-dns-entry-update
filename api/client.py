@@ -14,21 +14,24 @@ class Client():
         response = None
         if request.method == 'GET':
             response = self.get(request.path)
-            if response.status_code is not 200:
+            if response.status_code != 200:
                 raise RuntimeError(response.json())
 
         if request.method == 'POST':
-            response = self.post(request.path, request.body)
-            if response.status_code is not 201:
+            response = self.post(request.path, data=request.body)
+            if response.status_code != 201:
                 raise RuntimeError(response.json())
 
         if request.method == 'DELETE':
             response = self.delete(request.path)
-            if response.status_code is not 204:
+            if response.status_code != 204:
                 raise RuntimeError(response.json())
 
         if response is not None:
-            return response.json()
+            try:
+                return response.json()
+            except ValueError:
+                return {}
 
         raise RuntimeError('Unsupported method: ' + request.method)
 
@@ -37,7 +40,7 @@ class Client():
         return requests.get(self._api_base_url + path, headers=self._headers)
 
     def post(self, path: string, data: dict):
-        return requests.post(self._api_base_url + path, data, headers=self._headers)
+        return requests.post(self._api_base_url + path, json=data, headers=self._headers)
 
     def delete(self, path):
         return requests.delete(self._api_base_url + path, headers=self._headers)
