@@ -14,12 +14,18 @@ class Client():
         response = None
         if request.method == 'GET':
             response = self.get(request.path)
+            if response.status_code is not 200:
+                raise RuntimeError(response.json())
 
         if request.method == 'POST':
             response = self.post(request.path, request.body)
+            if response.status_code is not 201:
+                raise RuntimeError(response.json())
 
         if request.method == 'DELETE':
             response = self.delete(request.path)
+            if response.status_code is not 204:
+                raise RuntimeError(response.json())
 
         if response is not None:
             return response.json()
