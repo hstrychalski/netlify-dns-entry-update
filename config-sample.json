@@ -1,0 +1,8 @@
+{
+  "domains": [
+    "domain1.example-domain.com",
+    "domain2.example-domain.com"
+  ],
+  "dnsZoneName": "example-domain.com",
+  "accessToken": "asdf1234"
+}
