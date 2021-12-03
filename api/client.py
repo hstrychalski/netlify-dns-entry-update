@@ -11,14 +11,18 @@ class Client():
         self._api_base_url = api_base_url
 
     def send_request(self, request: Request):
+        response = None
         if request.method == 'GET':
-            return self.get(request.path)
+            response = self.get(request.path)
 
         if request.method == 'POST':
-            return self.post(request.path, request.body)
+            response = self.post(request.path, request.body)
 
         if request.method == 'DELETE':
-            return self.delete(request.path)
+            response = self.delete(request.path)
+
+        if response is not None:
+            return response.json()
 
         raise RuntimeError('Unsupported method: ' + request.method)
 

@@ -1,8 +1,9 @@
 import string
+from typing import Optional
 
 class Request:
 
-    def __init__(self, path: string, method: string, body: dict):
+    def __init__(self, path: string, method: string, body: Optional[dict]):
         self._path = path
         self._method = method
         self._body = body
