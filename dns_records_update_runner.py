@@ -1,4 +1,4 @@
-import string, json
+import string, json, os
 from typing import List
 from requests import get
 from api.client import Client
@@ -14,7 +14,9 @@ class DnsRecordsUpdateRunner():
         self._client = Client(self._config['accessToken'], self._config['baseApiUrl'])
 
     def read_config(self) -> dict:
-        with open('config.json') as config:
+        dirname = os.path.dirname(__file__)
+        config_filename = os.path.join(dirname, 'config.json')
+        with open(config_filename) as config:
             return json.load(config)
 
     def run(self):

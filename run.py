@@ -1,7 +1,10 @@
-import logging
+import os, logging
 from dns_records_update_runner import DnsRecordsUpdateRunner
 
-logging.basicConfig(filename='log/app.log', level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(message)s')
+dirname = os.path.dirname(__file__)
+log_filename = os.path.join(dirname, 'log/app.log')
+
+logging.basicConfig(filename=log_filename, level=logging.DEBUG, format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger = logging.getLogger(__name__)
 
 task_runner = DnsRecordsUpdateRunner()
