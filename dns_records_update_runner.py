@@ -1,4 +1,4 @@
-import string, json, os
+import string, json, os, socket
 from typing import List
 from requests import get
 from api.client import Client
@@ -64,4 +64,9 @@ class DnsRecordsUpdateRunner():
             self._client.send_request(req)
 
     def get_current_ip(self) -> string:
-        return get('https://api.ipify.org').content.decode('utf8')
+        ip = get('https://api.ipify.org').content.decode('utf8')
+        try:
+            socket.inet_aton(ip)
+            return ip
+        except socket.error:
+            raise RuntimeError("Invalid ip address received from api: " + ip)
