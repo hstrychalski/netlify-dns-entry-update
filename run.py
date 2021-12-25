@@ -1,8 +1,8 @@
-import os, logging
+import logging
 from dns_records_update_runner import DnsRecordsUpdateRunner
+from api.helper import get_absolute_path
 
-dirname = os.path.dirname(__file__)
-log_filename = os.path.join(dirname, 'log/app.log')
+log_filename = get_absolute_path('logs/app.log')
 
 logging.basicConfig(filename=log_filename, level=logging.ERROR, format='%(asctime)s %(levelname)s %(name)s %(message)s')
 logger = logging.getLogger(__name__)

@@ -6,6 +6,7 @@ from api.dns_record_delete import DnsRecordsDelete
 from api.dns_record_add import DnsRecordAdd
 from api.dns_records_get import DnsRecordsGet
 from api.dns_zones_get import DnsZonesGet
+from api.helper import get_absolute_path
 
 class DnsRecordsUpdateRunner():
 
@@ -14,8 +15,7 @@ class DnsRecordsUpdateRunner():
         self._client = Client(self._config['accessToken'], self._config['baseApiUrl'])
 
     def read_config(self) -> dict:
-        dirname = os.path.dirname(__file__)
-        config_filename = os.path.join(dirname, 'config.json')
+        config_filename = get_absolute_path('config.json')
         with open(config_filename) as config:
             return json.load(config)
 
